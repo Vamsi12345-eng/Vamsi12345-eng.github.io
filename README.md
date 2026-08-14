@@ -51,12 +51,12 @@ files, which browsers block over `file://`. To preview locally, open a terminal
 in this folder and run `python -m http.server`, then visit
 `http://localhost:8000`. On GitHub Pages it works normally.
 
-**It's skipped on phones and slow connections.** The runtime pulls React, a JSX
-compiler and three.js from CDNs — roughly 3 MB before the first frame draws,
-plus real GPU work. That's too much on mobile data. Below 700 px wide, or when
-the browser asks for reduced motion or data saving, the photo/pattern hero
-shows instead. To change that, edit `MIN_WIDTH` in the script at the bottom of
-`index.html`.
+**Mobile.** The runtime pulls React, a JSX compiler and three.js from CDNs —
+roughly 3 MB before the first frame draws, plus real GPU work. It runs on all
+screen sizes by default (`MIN_WIDTH = 0` in the script at the bottom of
+`index.html`). Set that to `700` to skip phones and show the photo/pattern hero
+instead. Reduced-motion and data-saver requests are always honoured, whatever
+`MIN_WIDTH` says.
 
 To retune it, edit `SITE_TWEAKS` at the top of `anim/site-loop-3d.jsx` —
 camera lead, exposure, and the vignette toggle. The original files also

@@ -125,7 +125,8 @@
          font-size:11.5px; color:var(--ink-soft); border-top:1px solid var(--rule)}
 
   @media (max-width:860px){
-    .headline{padding:60px 0 66px}
+    .hero{min-height:min(74vh, 560px)}
+    .headline{padding:44px 0 52px}
     .cols{grid-template-columns:1fr; gap:32px}
     .strip{height:160px}
   }
@@ -242,10 +243,11 @@
 /* Loads the 3D loop into the hero.
    It is injected rather than hard-coded so it can be skipped when it
    shouldn't run — the animation pulls React, a JSX compiler and three.js
-   (~3 MB), which is a lot to spend on a phone or on someone who asked for
-   less motion. Set MIN_WIDTH to 0 if you want it on mobile too. */
+   (~3 MB) plus real GPU work. MIN_WIDTH is the screen-width floor;
+   0 means run everywhere. Reduced-motion and data-saver are still
+   honoured regardless. */
 (function(){
-  var MIN_WIDTH = 700;
+  var MIN_WIDTH = 0;   // 0 = run on all screen sizes. Set to 700 to skip phones.
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var narrow = window.innerWidth < MIN_WIDTH;
