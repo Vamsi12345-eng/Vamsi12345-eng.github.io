@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script>window.OM_SCENES = '[{"name":"Code","dur":1.72,"desc":"A lit workstation in a dark room, code scrolling on the monitor"},{"name":"Board","dur":1.72,"desc":"The camera passes a populated circuit board under a hard spotlight"},{"name":"Silicon","dur":1.72,"desc":"Macro of a die: metal mesas, vias and a glowing core"},{"name":"Fabrication","dur":1.72,"desc":"A wafer turning on a stage inside a chamber while a robot arm sweeps"},{"name":"Rocket","dur":1.72,"desc":"The vehicle on the pad, payload crate rising into the bay"},{"name":"Transit","dur":1.72,"desc":"The craft in flight, Earth behind it, the Moon ahead"},{"name":"Settlement","dur":1.68,"desc":"Lit domes and corridors on the regolith, Earth in the sky, camera continues back to the desk"}]';</script>
+<script>window.OM_PLAYBACK = '{"mode":"loop"}';</script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT"
+  }
+}
+</script>
+<script type="module">
+  import * as THREE from 'three';
+  window.THREE = THREE;
+</script>
+<style>
+  html, body { margin: 0; background: #04070c; overflow: hidden; }
+</style>
+</helmet>
+<x-import component-from-global-scope="SiteLoop3D"
+          from="./animations-v3.jsx ./moon-3d.jsx ./site-loop-3d.jsx"
+          hint-size="100%,100%"
+          style="position:absolute;inset:0"></x-import>
+</x-dc>
+</body>
+</html>
