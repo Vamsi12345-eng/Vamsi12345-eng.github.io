@@ -32,12 +32,17 @@ rather than fine detail — the detail gets lost.
 
 ## The hero animation
 
-`anim/` holds the schematic loop that plays behind the headline:
+`anim/` holds the 3D loop that plays behind the headline:
 Code → Board → Silicon → Fabrication → Rocket → Transit → Settlement.
 
-Files: `hero.html` (the page the iframe loads), `site-loop.jsx` (mounts the
-animation), `moon-loop.jsx` + `animations-v3.jsx` (the artwork and timeline),
-`support.js` (the runtime). Commit the whole folder.
+`index.html` loads `anim/hero.html`. That page pulls in `site-loop-3d.jsx`
+(mounts it), `moon-3d.jsx` (the 3D scene), `animations-v3.jsx` (the timeline)
+and `support.js` (the runtime). three.js comes from a CDN.
+
+The 2D schematic version is still in the folder as `hero-2d.html` +
+`site-loop.jsx` + `moon-loop.jsx`. To switch back, change the iframe `src`
+near the bottom of `index.html` from `anim/hero.html` to `anim/hero-2d.html`.
+Commit the whole folder either way.
 
 Two things worth knowing:
 
@@ -46,15 +51,17 @@ files, which browsers block over `file://`. To preview locally, open a terminal
 in this folder and run `python -m http.server`, then visit
 `http://localhost:8000`. On GitHub Pages it works normally.
 
-**It's skipped on phones and slow connections.** The runtime pulls React and a
-JSX compiler from a CDN (~2.5 MB), which is too much on mobile data. Below
-700 px wide, or when the browser asks for reduced motion or data saving, the
-photo/pattern hero shows instead. To change that, edit `MIN_WIDTH` in the
-script at the bottom of `index.html`.
+**It's skipped on phones and slow connections.** The runtime pulls React, a JSX
+compiler and three.js from CDNs — roughly 3 MB before the first frame draws,
+plus real GPU work. That's too much on mobile data. Below 700 px wide, or when
+the browser asks for reduced motion or data saving, the photo/pattern hero
+shows instead. To change that, edit `MIN_WIDTH` in the script at the bottom of
+`index.html`.
 
-To retune the colours, edit `SITE_TWEAKS` at the top of `anim/site-loop.jsx`.
-The original files also shipped an editor panel with sliders; that's removed
-from the site version so visitors don't see authoring controls.
+To retune it, edit `SITE_TWEAKS` at the top of `anim/site-loop-3d.jsx` —
+camera lead, exposure, and the vignette toggle. The original files also
+shipped an editor panel with sliders; that's removed from the site version so
+visitors don't see authoring controls.
 
 ## Editing
 
