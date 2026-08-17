@@ -49,13 +49,13 @@
   }
   .hero .wrap{position:relative; z-index:4}
 
-  /* animation layer — sits over the photo, under the text */
-  #heroAnim{position:absolute; inset:0; z-index:1; border:0; width:100%; height:100%;
-            opacity:0; transition:opacity 1.1s ease}
-  #heroAnim.ready{opacity:1}
+  /* video layer — sits over the pattern, under the text */
+  #heroVid{position:absolute; inset:0; z-index:1; width:100%; height:100%;
+           object-fit:cover; opacity:0; transition:opacity 1s ease}
+  #heroVid.ready{opacity:1}
   .veil{position:absolute; inset:0; z-index:2; pointer-events:none;
-        background:linear-gradient(180deg, rgba(4,7,12,.30) 0%, rgba(4,7,12,.18) 38%,
-                    rgba(4,7,12,.86) 100%)}
+        background:linear-gradient(180deg, rgba(4,7,12,.42) 0%, rgba(4,7,12,.26) 38%,
+                    rgba(4,7,12,.88) 100%)}
   .top{display:flex; justify-content:space-between; align-items:baseline;
        padding:22px 0; gap:16px; flex-wrap:wrap}
   .mark{font-family:Archivo,sans-serif; font-weight:800; font-stretch:112%;
@@ -136,6 +136,11 @@
 <body>
 
 <header class="hero">
+  <video id="heroVid" poster="img/hero-poster.jpg"
+         autoplay muted loop playsinline preload="auto"
+         aria-hidden="true" tabindex="-1">
+    <source src="img/hero.mp4" type="video/mp4">
+  </video>
   <div class="veil"></div>
   <div class="wrap">
     <div class="top">
@@ -240,33 +245,36 @@
 </div>
 
 <script>
-/* Loads the 3D loop into the hero.
-   It is injected rather than hard-coded so it can be skipped when it
-   shouldn't run — the animation pulls React, a JSX compiler and three.js
-   (~3 MB) plus real GPU work. MIN_WIDTH is the screen-width floor;
-   0 means run everywhere. Reduced-motion and data-saver are still
-   honoured regardless. */
+/* Hero video handling.
+   The four attributes on the <video> tag all matter: muted and playsinline
+   are what let it autoplay at all (browsers block sound, and iOS otherwise
+   yanks video into fullscreen), loop keeps it going, autoplay starts it.
+   This script only handles the cases the attributes can't. */
 (function(){
-  var MIN_WIDTH = 0;   // 0 = run on all screen sizes. Set to 700 to skip phones.
+  var v = document.getElementById('heroVid');
+  if (!v) return;
 
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var narrow = window.innerWidth < MIN_WIDTH;
-  var saveData = navigator.connection && navigator.connection.saveData;
-  if (reduce || narrow || saveData) return;   // photo/pattern hero stays
+  // Someone who asked for less motion gets the poster frame, held still.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    v.removeAttribute('autoplay');
+    v.pause();
+    v.classList.add('ready');
+    return;
+  }
 
-  var f = document.createElement('iframe');
-  f.id = 'heroAnim';
-  f.src = 'anim/hero.html';
-  f.title = 'Schematic loop: code, board, silicon, wafer, rocket, transit, lunar settlement';
-  f.setAttribute('loading','eager');
-  f.setAttribute('scrolling','no');
-  f.setAttribute('tabindex','-1');
-  f.setAttribute('aria-hidden','true');
-  f.style.pointerEvents = 'none';             // never swallows scroll or clicks
-  f.addEventListener('load', function(){
-    setTimeout(function(){ f.classList.add('ready'); }, 220);
+  // Fade in on the first painted frame, so you never see a flash of black.
+  v.addEventListener('loadeddata', function(){ v.classList.add('ready'); });
+  if (v.readyState >= 2) v.classList.add('ready');
+
+  // Some browsers refuse autoplay anyway. Show the poster rather than a blank.
+  var p = v.play();
+  if (p && p.catch) p.catch(function(){ v.classList.add('ready'); });
+
+  // Don't burn battery on a tab nobody is looking at.
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) v.pause();
+    else { var r = v.play(); if (r && r.catch) r.catch(function(){}); }
   });
-  document.querySelector('.hero').insertBefore(f, document.querySelector('.veil'));
 })();
 </script>
 </body>

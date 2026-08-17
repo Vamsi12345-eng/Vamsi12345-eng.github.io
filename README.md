@@ -6,62 +6,48 @@
 2. Put `index.html` and the `img/` folder in the root
 3. Push. Live at `https://vamsi12345-eng.github.io` in about a minute.
 
-## Photos
+## Media
 
-The site looks for two files. Both are optional — if either is missing, a
-generated circuit-trace pattern shows in its place and nothing breaks.
+Everything lives in `img/`. All of it is optional — if a file is missing the
+layer below it shows, and nothing breaks.
 
-| File            | Where it appears        | Best size        |
-|-----------------|-------------------------|------------------|
-| `img/hero.jpg`  | Full-width top banner   | 2000 x 1200 px   |
-| `img/bench.jpg` | Mid-page divider strip  | 2000 x 600 px    |
+| File               | Where it appears       | Notes                        |
+|--------------------|------------------------|------------------------------|
+| `img/hero.mp4`     | Hero background loop   | keep under ~5 MB             |
+| `img/hero-poster.jpg` | First frame, shown while the video loads | 1280 px wide |
+| `img/hero.jpg`     | Fallback if no video   | optional                     |
+| `img/bench.jpg`    | Mid-page divider strip | 2000 x 600 px                |
 
-Keep each under ~400 KB so the page stays fast (squoosh.app will compress them).
+The fallback chain for the hero is: video → poster → `hero.jpg` → generated
+circuit-trace pattern. You only need the first two.
 
-**Use your own bench photos if you have them** — an RFSoC board, a scope trace,
-a spectrum analyser screen. They beat stock every time and cost you nothing in
-licensing. If you'd rather use stock, these are free for commercial use with no
-attribution required:
+### Making the poster frame
 
-- unsplash.com — search: circuit board macro, oscilloscope, electronics lab
-- pexels.com — search: microchip, laboratory equipment
-- pixabay.com — search: pcb, semiconductor
+Grab a frame from the video itself so the transition is invisible:
 
-Photos are darkened by a navy overlay, so pick images with visible structure
-rather than fine detail — the detail gets lost.
+```
+ffmpeg -i hero.mp4 -ss 00:00:00 -frames:v 1 -q:v 3 hero-poster.jpg
+```
 
-## The hero animation
+### Re-compressing the video
 
-`anim/` holds the 3D loop that plays behind the headline:
-Code → Board → Silicon → Fabrication → Rocket → Transit → Settlement.
+```
+ffmpeg -i input.mp4 -ss 00:00:05 -t 12 -vf "scale=1280:-2,fps=25" -c:v libx264 -crf 30 -preset slow -an -movflags +faststart hero.mp4
+```
 
-`index.html` loads `anim/hero.html`. That page pulls in `site-loop-3d.jsx`
-(mounts it), `moon-3d.jsx` (the 3D scene), `animations-v3.jsx` (the timeline)
-and `support.js` (the runtime). three.js comes from a CDN.
+`-crf` is the quality dial: lower is better and bigger, higher is worse and
+smaller. `-an` strips audio, which a muted background video never needs.
+`+faststart` moves the index to the front of the file so playback can begin
+before the whole thing has downloaded — don't drop that one.
 
-The 2D schematic version is still in the folder as `hero-2d.html` +
-`site-loop.jsx` + `moon-loop.jsx`. To switch back, change the iframe `src`
-near the bottom of `index.html` from `anim/hero.html` to `anim/hero-2d.html`.
-Commit the whole folder either way.
+### How the video is set up
 
-Two things worth knowing:
-
-**It won't run from a double-clicked file.** The runtime fetches the `.jsx`
-files, which browsers block over `file://`. To preview locally, open a terminal
-in this folder and run `python -m http.server`, then visit
-`http://localhost:8000`. On GitHub Pages it works normally.
-
-**Mobile.** The runtime pulls React, a JSX compiler and three.js from CDNs —
-roughly 3 MB before the first frame draws, plus real GPU work. It runs on all
-screen sizes by default (`MIN_WIDTH = 0` in the script at the bottom of
-`index.html`). Set that to `700` to skip phones and show the photo/pattern hero
-instead. Reduced-motion and data-saver requests are always honoured, whatever
-`MIN_WIDTH` says.
-
-To retune it, edit `SITE_TWEAKS` at the top of `anim/site-loop-3d.jsx` —
-camera lead, exposure, and the vignette toggle. The original files also
-shipped an editor panel with sliders; that's removed from the site version so
-visitors don't see authoring controls.
+The `<video>` tag carries `muted`, `playsinline`, `loop` and `autoplay`.
+The first two are what make autoplay work at all: browsers block video with
+sound, and iOS forces fullscreen without `playsinline`. The script at the
+bottom of `index.html` handles the rest — fading in on the first frame,
+falling back to the poster if a browser refuses autoplay, holding still for
+visitors who've asked for reduced motion, and pausing in a background tab.
 
 ## Editing
 
