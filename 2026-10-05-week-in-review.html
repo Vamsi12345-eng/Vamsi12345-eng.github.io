@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week in Review: Oct 5, 2026 - Vamsi Akula</title>
+<meta name="description" content="OptoSAR funding, a packaging-heavy chip mission, and a Hyderabad GaN bet - three things from this week in Indian space and semiconductors, with notes from an RTL/RF engineer's seat.">
+<style>
+  body{ max-width:700px; margin:20px auto; padding:0 15px;
+        font-family:"Times New Roman", Times, serif; font-size:17px;
+        color:#000000; background:#ffffff; }
+  a:link{ color:#0000EE }
+  a:visited{ color:#551A8B }
+  h1{ font-size:24px }
+  h2{ font-size:19px; margin-top:30px }
+  table.meta{ font-family:Arial,Helvetica,sans-serif; font-size:12px; color:#555555;
+              border:none; margin-bottom:20px }
+  .dek{ font-family:Arial,Helvetica,sans-serif; font-size:12px; color:#555555; }
+  .take{ margin-left:20px }
+  ol.sources{ font-size:14px }
+</style>
+</head>
+<body>
+
+<p><a href="../index.html">&lt;&lt; back to vamsi akula's site</a></p>
+
+<h1>OptoSAR funding, a packaging-heavy chip mission, and Hyderabad's GaN bet</h1>
+<p class="dek">October 5, 2026 &nbsp;|&nbsp; 7 min read</p>
+
+<hr>
+
+<p>Three things from the past week in Indian space and semiconductors, written down with the facts and figures that actually back them, and a short note on each from where I sit as an RTL/RF design engineer.</p>
+
+<h2>1. GalaxEye's OptoSAR gets funded to grow up</h2>
+<p class="dek">Bengaluru &mdash; Oct 2 &amp; Oct 4, 2026</p>
+<ul>
+<li>GalaxEye secured $6.5M in government support from India's Technology Development Board (TDB), part of a $25.5M total project, to take its OptoSAR satellite tech from Technology Readiness Level 6 to TRL 9.</li>
+<li>OptoSAR fuses Synthetic Aperture Radar (SAR) with electro-optical (EO) imaging on one satellite, targeting sub-0.5 m resolution across a wider range of weather and lighting conditions than either sensor alone.</li>
+<li>Separately reported this week: a US patent for OptoSAR granted September 2026, a plan for a 30-satellite constellation over five years, the August 2026 acquisition of StarOps for manufacturing, and &#8377;638.4 million in TDB venture debt from September 2026.</li>
+<li>Also on record: GalaxEye's first satellite, Mission Drishti (launched May 2026), lost communication in July 2026 after a solar storm, after reportedly completing around 85% of its planned objectives.</li>
+</ul>
+<p class="take"><i>My take &mdash; Every writeup of this repeats "radar plus optical equals all-weather imaging" like that's the hard part. It isn't. SAR wants a stable, off-nadir incidence angle; EO wants near-nadir. Reconciling both on one bus and one attitude profile, then co-registering two very different data products, is a geometry and signal-processing problem before it's ever a sales pitch. TRL 6 to TRL 9 is where that gets paid for &mdash; vibration, thermal, radiation qualification, none of which makes it into a press release. The more interesting line in this story isn't the patent, it's that Mission Drishti lost its comms link to a solar storm after doing most of its job. "All-weather" imaging getting taken out by actual weather in space is worth sitting with.</i></p>
+
+<h2>2. India has 12 approved chip units. Nine of them don't design chips.</h2>
+<p class="dek">New Delhi &mdash; Oct 2, 2026</p>
+<ul>
+<li>Rajeev Chandrasekhar &mdash; former Union IT minister, credited with helping build the India Semiconductor Mission &mdash; said the strategy needs to move beyond chip packaging.</li>
+<li>The numbers: 12 approved manufacturing units, &#8377;1.64 lakh crore in committed investment, 5 facilities already operational. Nine of the 12 are ATMP/OSAT (assembly, test, mark, pack) &mdash; what he called the lower-margin end of the value chain, facing rising competition.</li>
+<li>His proposed fix leans on ISM 2.0's additional &#8377;1.275 lakh crore: a National Semiconductor Research Institute, a &#8377;1,000-crore Chip Design Commercialisation Fund, and sovereign AI-inference-chip programs with government offtake guarantees.</li>
+<li>He points to 1.25 lakh chip-design engineers and the open-source RISC-V DIR-V program as underused assets.</li>
+</ul>
+<p class="take"><i>My take &mdash; I'm an RTL/FPGA engineer, which puts me adjacent to, not inside, the number he's citing. There's a real gap between "can write synthesizable Verilog for an FPGA bitstream" and "chip-design engineer" in the sense this policy wants: DFT, static timing closure on a specific process node, floorplanning, tape-out. FPGA shops are quietly where a decent chunk of that muscle gets built in India right now, almost by accident. 1.25 lakh is a headcount number, not a capability number, and a country can announce as many fabs as it wants &mdash; it can't announce its way to a design ecosystem. Worth watching whether the next &#8377;1.275 lakh crore buys that muscle or just more buildings.</i></p>
+
+<h2>3. A Hyderabad startup signs up to build India's own GaN</h2>
+<p class="dek">Hyderabad &mdash; Oct 2-3, 2026</p>
+<ul>
+<li>SpintronicsAI Semiconductors (Hyderabad) signed an MoU with CSIR-CEERI (Pilani) to develop gallium nitride (GaN) technology and assess the feasibility of indigenous GaN fabrication &mdash; reportedly the first Indian company to partner with CEERI on this specifically.</li>
+<li>Stated applications: power electronics, RF/communications, telecom infrastructure, defence, aerospace, satellite systems, electric mobility.</li>
+<li>India's GaN market is pegged at roughly $224M in 2026, growing to about $1.88B by 2033, per SpintronicsAI's own figures.</li>
+<li>Context: in mid-September 2026, DRDO's Solid State Physics Laboratory reported demonstrating indigenous GaN-on-SiC MMIC tech on 4-inch SiC wafers &mdash; individual die up to 30 W, substrate-based HEMTs to 150 W, X-band MMICs at 40 W. This MoU is one more front in a multi-institution push, not an isolated deal.</li>
+</ul>
+<p class="take"><i>My take &mdash; I've designed RF clocking chains and done RFSoC DAC/ADC bring-up, so I'll say plainly why GaN-on-SiC is worth the fuss: higher breakdown field and power density than GaAs, far better thermal conductivity than GaN-on-silicon &mdash; which is exactly why it's the substrate of choice for a compact, high-power RF PA in a satellite transponder or radar transmitter. None of that is in question. What's in question is the distance between "we signed an MoU to explore fabrication feasibility" and a qualified, yield-stable part you'd actually spec into an RF chain &mdash; wafer supply at volume, packaging, reliability qualification. This is happening in my own city, which is a nice hook and not the point. The point is checking back on this in a year for a parts list, not a press release.</i></p>
+
+<hr>
+
+<p>Busy week on the India space/semiconductor-policy front, concentrated rather than spread evenly. Nothing new surfaced this week in global RFSoC/EDA silicon or RF/DSP open-source releases worth including here.</p>
+
+<h2>Sources</h2>
+<ol class="sources">
+<li><a href="https://evertiq.com/news/2026-10-02-indias-galaxeye-secures-65m-to-advance-multisensor-satellite-tech">India's GalaxEye secures $6.5M to advance multisensor satellite tech</a> - evertiq, Oct 2, 2026</li>
+<li><a href="https://www.whalesbook.com/news/English/startupsvc/GalaxEye-Secures-US-Patent-for-OptoSAR-Targets-30-Satellite-Constellation/6ac241b95aacb956d08b09a3">GalaxEye Secures US Patent for OptoSAR; Targets 30-Satellite Constellation</a> - Whale's Book, Oct 4, 2026</li>
+<li><a href="https://businesstoday.in/technology/news/story/indias-semiconductor-strategy-needs-to-move-beyond-chip-packaging-says-rajeev-chandrasekhar-559255-2026-10-02">India's semiconductor strategy needs to move beyond chip packaging, says Rajeev Chandrasekhar</a> - Business Today, Oct 2, 2026</li>
+<li><a href="https://helloentrepreneurs.com/technology/indias-semiconductor-gan-100430/">India's GaN Semiconductor Initiative</a> - Hello Entrepreneurs, Oct 3, 2026</li>
+<li><a href="https://www.newsbytesapp.com/news/business/hyderabads-spintronics-ai-semiconductors-signs-csir-ceeri-mou-to-develop-gan/tldr">Hyderabad's Spintronics AI Semiconductors signs CSIR-CEERI MOU to develop GaN</a> - NewsBytes, Oct 2, 2026</li>
+<li><a href="https://www.freepressjournal.in/tech/indias-drdo-achieves-major-breakthrough-in-homegrown-chip-tech-for-radars-electronic-warfare">India's DRDO Achieves Major Breakthrough In Homegrown Chip Tech For Radars &amp; Electronic Warfare</a> - Free Press Journal, Sep 14, 2026 (background)</li>
+</ol>
+
+<hr>
+<p><small>Vamsi Akula</small></p>
+
+</body>
+</html>
